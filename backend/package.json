@@ -1,0 +1,21 @@
+{
+  "name": "fluxo-kanban-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "API de tarefas com autenticação JWT e persistência PostgreSQL",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "5.2.1",
+    "express-rate-limit": "8.7.0",
+    "helmet": "8.3.0",
+    "jsonwebtoken": "9.0.3",
+    "pg": "8.23.0"
+  }
+}
