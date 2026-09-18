@@ -52,8 +52,21 @@ O teste confirmou cadastros simultâneos com o mesmo nome (um 201 e um 409), nor
 
 A interface passou pela conferência de IDs, referências JavaScript, labels, sintaxe e entrega HTTP dos arquivos atualizados. O fluxo visual de cadastro, confirmação de senha e restauração deve seguir o roteiro manual do README.
 
+## Atualização: interface e temas — 18/09/2026
+
+A interface foi revisada em navegador automatizado com a stack Docker real, nas dimensões **1440 × 1000** e **390 × 844**. Foram inspecionados os temas claro e escuro, as telas de login e cadastro, o quadro e os modais. Na tela estreita, as colunas ficam empilhadas e não houve rolagem horizontal.
+
+- Login incorreto exibiu a mensagem da API; `admin/admin` abriu o quadro.
+- Uma tarefa exclusiva de teste foi criada, movida pelo seletor de etapa, editada e excluída pelo modal de confirmação.
+- Recarregar manteve o tema escolhido e restaurou a sessão e o nome do usuário.
+- Sair retornou ao login; o cadastro recusou senhas diferentes com mensagem visível. Trocar o tema funcionou também nessa tela.
+- A revisão de contraste ajustou os textos secundários do tema claro e as bordas dos campos nos dois temas.
+- `node --test scripts/test-theme.mjs`: **6 testes aprovados**, incluindo preferência do sistema, escolha salva, botões acessíveis, armazenamento bloqueado e sincronização entre abas, com APIs do navegador simuladas.
+- `node scripts/test-api.mjs`: **32 verificações aprovadas novamente** na stack real.
+- `docker compose up --build -d --wait --wait-timeout 120`: build concluído e os três serviços saudáveis com os arquivos novos de aparência.
+
 ## Limites desta validação
 
-O navegador automatizado não estava disponível nesta sessão. Os cliques, arrastar e soltar e o aspecto visual em diferentes telas **não foram executados em navegador**. Foram verificados o código da interface, a sintaxe, seus recursos HTTP e as operações reais da API. A conferência visual e interativa deve seguir o roteiro manual do README; não há capturas de tela apresentadas como evidência.
+A validação inicial de 17/09 não teve navegador automatizado; a atualização de 18/09 acrescenta a conferência visual e os cliques descritos acima. O gesto de arrastar e soltar e aparelhos móveis físicos não foram testados nesta atualização. A movimentação foi conferida pelo seletor, e a adaptação móvel foi inspecionada em viewport reduzido. As capturas usadas na revisão são artefatos locais, fora do ZIP e do Git.
 
 Os testes sem banco do backend usam um repositório em memória para verificar autenticação e comportamento HTTP. A evidência de persistência é exclusivamente o teste separado com PostgreSQL real e recriação dos contêineres.

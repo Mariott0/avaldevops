@@ -32,6 +32,12 @@ docker compose up --build -d --wait
 docker compose ps
 ```
 
+### Aparência
+
+A interface oferece **tema claro e escuro** no botão do topo, tanto no login/cadastro quanto no quadro. No primeiro acesso, segue a aparência do sistema. Ao alternar, salva sua preferência no navegador e a mantém após recarregar, sair ou entrar em outra conta. A escolha é local ao navegador e sincronizada entre abas; se o armazenamento estiver bloqueado, a troca continua funcionando durante a página atual. O tema é aplicado antes do CSS para evitar a troca de cores durante o carregamento.
+
+O layout se adapta a computadores e celulares, com resumo de progresso, cartões por etapa e formulários com mensagens de retorno. Em telas estreitas, as colunas do Kanban ficam empilhadas; o seletor em cada cartão permite mover tarefas sem arrastar.
+
 ## Arquitetura e isolamento
 
 ```mermaid
@@ -100,6 +106,8 @@ Exemplo de tarefa enviada: `{"title":"Preparar apresentação","description":"De
 9. Cadastre um usuário novo com senha de ao menos oito caracteres. Confira a entrada automática, seu nome no cabeçalho e o quadro vazio.
 10. Crie uma tarefa, recarregue e depois saia e entre novamente com a nova conta: nome e tarefa devem continuar corretos.
 11. Entre com `admin/admin`: a tarefa da outra conta não deve aparecer. Um cadastro com nome já existente deve mostrar um erro.
+12. Alterne os temas no login e no quadro. Confira campos, cartões, mensagens e modais em ambos; recarregue e confirme que a escolha continua salva.
+13. Em uma tela estreita, confira o quadro em uma coluna e use o seletor de etapa dos cartões para movimentar tarefas.
 
 ### 2. Persistência após destruir e recriar contêineres
 
@@ -126,9 +134,12 @@ Com a aplicação em execução, instale Node.js 22 ou superior no host apenas s
 node scripts/test-api.mjs
 node scripts/test-registration.mjs
 node scripts/test-persistence.mjs
+node --test scripts/test-theme.mjs
 ```
 
 O teste de API exercita autenticação e CRUD através do Nginx e do PostgreSQL reais. O teste de cadastro cria duas contas, verifica duplicidade simultânea, validações, login, identidade e isolamento de tarefas. Ele usa o PostgreSQL da stack local para conferir hashes e limpar somente as contas criadas naquela execução; não deve ser usado contra um servidor remoto.
+
+Os testes de tema não precisam de Docker: executam o script de aparência com as APIs do navegador simuladas e verificam preferência do sistema, escolha salva, alternância, armazenamento bloqueado e sincronização entre abas. A conferência visual usa o roteiro manual acima.
 
 O teste de persistência cria uma tarefa identificável, executa `down` sem `-v`, recria os três serviços, compara os IDs dos contêineres e o volume e verifica os mesmos dados pela API. Ele interrompe temporariamente a aplicação; rode fora de uma demonstração em andamento. Os testes limpam apenas os dados que criaram.
 

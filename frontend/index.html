@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#183e35">
-    <meta name="description" content="Organize suas tarefas em um quadro Kanban simples e intuitivo.">
+    <meta name="theme-color" content="#f4f7f6">
+    <meta name="description" content="Seu trabalho com mais clareza. Organize tarefas e acompanhe cada etapa no Em dia.">
     <title>Em dia · Seu quadro de tarefas</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script src="/theme.js"></script>
     <link rel="stylesheet" href="/styles.css">
     <script src="/app.js" defer></script>
   </head>
@@ -16,80 +17,88 @@
       <section class="welcome-panel" aria-labelledby="welcome-title">
         <a class="brand brand-light" href="/" aria-label="Em dia, início"><span class="brand-mark" aria-hidden="true">e.</span><span>em dia<span class="brand-dot">.</span></span></a>
         <div class="welcome-copy">
-          <span class="eyebrow eyebrow-light">UM PASSO DE CADA VEZ</span>
-          <h1 id="welcome-title">Menos pendências.<br>Mais <span>conquistas.</span></h1>
-          <p>Um lugar para organizar ideias, acompanhar o trabalho e celebrar cada tarefa concluída.</p>
+          <span class="welcome-badge"><span aria-hidden="true"></span> CLAREZA PARA O SEU DIA</span>
+          <h1 id="welcome-title">Grandes ideias.<br>Pequenos passos.<br><span>Tudo em dia.</span></h1>
+          <p>Organize o que importa, encontre seu foco e acompanhe cada conquista. Seu próximo passo começa aqui.</p>
           <div class="welcome-board" aria-hidden="true">
-            <div class="mini-card mini-card-back"><span class="mini-label">A FAZER</span><div class="mini-line"></div><div class="mini-line mini-line-short"></div></div>
-            <div class="mini-card mini-card-front"><span class="mini-check">✓</span><span class="mini-done">Mais uma tarefa em dia.</span><div class="mini-line"></div><div class="mini-line mini-line-short"></div></div>
-            <span class="welcome-spark spark-one">✳</span><span class="welcome-spark spark-two">+</span>
+            <div class="preview-heading"><span>Seu próximo projeto</span><span class="preview-menu">•••</span></div>
+            <div class="preview-columns">
+              <div class="preview-column"><span class="preview-status"><i class="preview-dot preview-dot-todo"></i> A fazer <b>2</b></span><div class="preview-card"><span class="preview-tag">Planejamento</span><strong>Uma nova ideia</strong><span class="preview-line"></span><span class="preview-line preview-line-short"></span><span class="preview-avatar">N</span></div><div class="preview-card preview-card-small"><strong>Definir os próximos passos</strong><span class="preview-line"></span></div></div>
+              <div class="preview-column"><span class="preview-status"><i class="preview-dot preview-dot-doing"></i> Em andamento <b>1</b></span><div class="preview-card"><span class="preview-tag preview-tag-amber">Em foco</span><strong>Tirar do papel</strong><span class="preview-line"></span><span class="preview-line preview-line-short"></span><span class="preview-avatar preview-avatar-amber">G</span></div></div>
+              <div class="preview-column"><span class="preview-status"><i class="preview-dot preview-dot-done"></i> Concluído <b>1</b></span><div class="preview-card"><span class="preview-tag">Conquista</span><strong>Dar o primeiro passo</strong><span class="preview-completed">✓ &nbsp;Missão cumprida</span></div></div>
+            </div>
+            <div class="preview-footer"><span class="preview-check">✓</span> Um passo de cada vez. Sempre em frente.</div>
           </div>
         </div>
-        <p class="welcome-footer">Do primeiro passo ao último check.</p>
+        <p class="welcome-footer"><span aria-hidden="true">✓</span> Um espaço pessoal para fazer acontecer.</p>
       </section>
       <section id="auth-panel" class="login-panel" aria-labelledby="login-title">
+        <div class="auth-toolbar"><button type="button" class="theme-toggle" data-theme-toggle aria-label="Tema escuro" aria-pressed="false"><span data-theme-icon aria-hidden="true">☾</span><span data-theme-label>Tema escuro</span></button></div>
         <div id="login-content" class="login-form-wrap">
-          <span class="eyebrow">BEM-VINDO AO SEU ESPAÇO</span>
-          <h2 id="login-title">Vamos colocar<br>as coisas em dia?</h2>
-          <p class="muted login-subtitle">Entre para acessar seu quadro de tarefas.</p>
+          <span class="auth-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="m8 12 3 3 5-6"></path></svg></span>
+          <span class="eyebrow">SEU ESPAÇO DE ORGANIZAÇÃO</span>
+          <h2 id="login-title">Bem-vindo de volta.</h2>
+          <p class="muted login-subtitle">Entre na sua conta e continue de onde parou.</p>
           <form id="login-form">
             <div class="field"><label for="username">Usuário</label><input id="username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Seu usuário" required maxlength="32" value="admin"></div>
             <div class="field"><label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Sua senha" required maxlength="200"></div>
             <p id="login-error" class="form-error" role="alert" hidden></p>
             <p id="auth-loading" class="auth-loading" role="status" hidden>Restaurando sua sessão…</p>
-            <button id="login-submit" class="button button-primary login-submit" type="submit"><span>Entrar no meu quadro</span><span aria-hidden="true">↗</span></button>
+            <button id="login-submit" class="button button-primary login-submit" type="submit"><span>Entrar no meu quadro</span><span aria-hidden="true">→</span></button>
             <p class="auth-switch">Ainda não tem uma conta? <button id="show-register" class="auth-link" type="button">Criar conta</button></p>
           </form>
           <div class="access-hint"><span class="hint-icon" aria-hidden="true">i</span><p>Acesso da atividade<br><strong>Usuário: admin <span aria-hidden="true">·</span> Senha: admin</strong></p></div>
         </div>
         <div id="register-content" class="login-form-wrap" hidden>
-          <span class="eyebrow">SEU PRÓXIMO PASSO COMEÇA AQUI</span>
-          <h2 id="register-title">Um espaço<br>só seu.</h2>
-          <p class="muted login-subtitle">Crie sua conta e organize suas próprias tarefas.</p>
+          <span class="auth-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10" cy="8" r="3"></circle><path d="M4 20v-2a6 6 0 0 1 12 0v2M19 7v6m-3-3h6"></path></svg></span>
+          <span class="eyebrow">UM NOVO COMEÇO</span>
+          <h2 id="register-title">Um espaço só seu.</h2>
+          <p class="muted login-subtitle">Crie sua conta para transformar planos em ação.</p>
           <form id="register-form">
             <div class="field"><label for="register-username">Usuário</label><input id="register-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Escolha seu usuário" required minlength="3" maxlength="32" aria-describedby="register-username-hint"><span id="register-username-hint" class="field-hint">De 3 a 32 caracteres: letras sem acento, números, ponto, hífen ou _. Maiúsculas serão salvas como minúsculas.</span></div>
             <div class="field"><label for="register-password">Senha</label><input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="Crie uma senha" required minlength="8" maxlength="200" aria-describedby="register-password-hint"><span id="register-password-hint" class="field-hint">De 8 a 200 caracteres. Não use apenas espaços.</span></div>
             <div class="field"><label for="register-confirm-password">Confirmar senha</label><input id="register-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repita sua senha" required minlength="8" maxlength="200"></div>
             <p id="register-error" class="form-error" role="alert" hidden></p>
-            <button id="register-submit" class="button button-primary login-submit" type="submit"><span>Criar minha conta</span><span aria-hidden="true">↗</span></button>
+            <button id="register-submit" class="button button-primary login-submit" type="submit"><span>Criar minha conta</span><span aria-hidden="true">→</span></button>
             <p class="auth-switch">Já tem uma conta? <button id="show-login" class="auth-link" type="button">Já tenho conta</button></p>
           </form>
         </div>
-        <p class="login-footer">Planeje. Faça. Conclua.</p>
+        <p class="login-footer">Planeje com clareza. Faça no seu ritmo.</p>
       </section>
     </main>
 
     <div id="app-view" hidden>
       <header class="app-header">
-        <a class="brand" href="/" aria-label="Em dia, início"><span class="brand-mark" aria-hidden="true">e.</span><span>em dia<span class="brand-dot">.</span></span></a>
-        <div class="header-session"><span class="session-user"><span id="session-avatar" class="avatar" aria-hidden="true"></span><span id="session-username"></span></span><button id="logout" class="button button-quiet" type="button">Sair <span aria-hidden="true">↗</span></button></div>
+        <div class="header-brand"><a class="brand" href="/" aria-label="Em dia, início"><span class="brand-mark" aria-hidden="true">e.</span><span>em dia<span class="brand-dot">.</span></span></a><span class="header-divider" aria-hidden="true"></span><span class="workspace-label">Workspace pessoal</span></div>
+        <div class="header-session"><button type="button" class="theme-toggle" data-theme-toggle aria-label="Tema escuro" aria-pressed="false"><span data-theme-icon aria-hidden="true">☾</span><span data-theme-label>Tema escuro</span></button><span class="session-user"><span id="session-avatar" class="avatar" aria-hidden="true"></span><span id="session-username"></span></span><button id="logout" class="button button-quiet" type="button">Sair <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5H4v14h5m5-14 7 7-7 7m-6-7h13"></path></svg></button></div>
       </header>
       <main class="workspace">
         <section class="board-heading" aria-labelledby="board-title">
-          <div><span class="eyebrow">SEU ESPAÇO DE ORGANIZAÇÃO</span><h1 id="board-title" tabindex="-1">Meu quadro<span>.</span></h1><p class="muted">Dê espaço às ideias. Transforme planos em conquistas.</p></div>
+          <div><span class="eyebrow">MENOS PENDÊNCIAS, MAIS POSSIBILIDADES</span><h1 id="board-title" tabindex="-1">Meu quadro<span>.</span></h1><p class="muted">Uma visão clara do que vem a seguir.</p></div>
           <button id="new-task" class="button button-primary" type="button"><span class="plus-sign" aria-hidden="true">+</span> Nova tarefa</button>
         </section>
         <section class="board-overview" aria-label="Resumo das tarefas">
-          <div class="overview-numbers"><span><strong id="total-count">0</strong> tarefas no total</span><span class="overview-divider" aria-hidden="true"></span><span><strong id="done-count">0</strong> concluídas</span></div>
-          <div class="progress-summary"><label for="board-progress">Seu progresso <strong id="progress-text">0%</strong></label><progress id="board-progress" max="100" value="0">0%</progress></div>
+          <div class="overview-stat"><div class="stat-heading"><span>Total de tarefas</span><span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M8 9h8m-8 4h8m-8 4h4"></path></svg></span></div><strong id="total-count" class="stat-value">0</strong><p>Tudo o que está no seu radar</p></div>
+          <div class="overview-stat"><div class="stat-heading"><span>Tarefas concluídas</span><span class="stat-icon stat-icon-success" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="m8 12 3 3 5-6"></path></svg></span></div><strong id="done-count" class="stat-value">0</strong><p>Cada entrega é um passo à frente</p></div>
+          <div class="overview-stat progress-summary"><div class="stat-heading"><label for="board-progress">Progresso do quadro</label><span class="stat-icon stat-icon-success" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18V6m0 12h16M8 14l4-4 3 3 5-7m-5 0h5v5"></path></svg></span></div><strong id="progress-text" class="stat-value">0%</strong><progress id="board-progress" max="100" value="0">0%</progress></div>
         </section>
-        <div class="board-toolbar"><p id="board-tip">Arraste os cartões ou use o seletor para mudar de etapa.</p><button id="refresh-tasks" class="button button-quiet" type="button"><span aria-hidden="true">↻</span> Atualizar</button></div>
+        <div class="board-toolbar"><div class="board-toolbar-copy"><span class="board-view-label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="5" height="16" rx="1"></rect><rect x="10" y="4" width="5" height="11" rx="1"></rect><rect x="17" y="4" width="4" height="7" rx="1"></rect></svg> Quadro Kanban</span><p id="board-tip">Arraste os cartões ou selecione uma etapa para mover.</p></div><button id="refresh-tasks" class="button button-quiet" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14-5L3 9m0-5v5h5M4 13a8 8 0 0 0 14 5l3-3m0 5v-5h-5"></path></svg> Atualizar</button></div>
         <div id="board-error" class="board-error" role="alert" hidden></div>
         <p id="board-loading" class="loading-state" role="status" hidden>Carregando suas tarefas…</p>
         <section id="kanban-board" class="kanban-board" aria-label="Quadro Kanban" aria-describedby="board-tip" aria-busy="false">
-          <section class="kanban-column" data-status="todo" aria-labelledby="todo-title"><header class="column-header"><h2 id="todo-title"><span class="status-dot dot-todo" aria-hidden="true"></span>A fazer <span id="todo-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="todo" aria-label="Nova tarefa em A fazer">+</button></header><p class="column-subtitle">Tudo começa com uma ideia.</p><div id="todo-tasks" class="task-list" role="list" aria-label="Tarefas a fazer"></div></section>
-          <section class="kanban-column" data-status="doing" aria-labelledby="doing-title"><header class="column-header"><h2 id="doing-title"><span class="status-dot dot-doing" aria-hidden="true"></span>Em andamento <span id="doing-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="doing" aria-label="Nova tarefa em andamento">+</button></header><p class="column-subtitle">Um pouco de foco, um passo adiante.</p><div id="doing-tasks" class="task-list" role="list" aria-label="Tarefas em andamento"></div></section>
-          <section class="kanban-column" data-status="done" aria-labelledby="done-title"><header class="column-header"><h2 id="done-title"><span class="status-dot dot-done" aria-hidden="true"></span>Concluído <span id="done-column-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="done" aria-label="Nova tarefa concluída">+</button></header><p class="column-subtitle">Pequenas vitórias também contam.</p><div id="done-tasks" class="task-list" role="list" aria-label="Tarefas concluídas"></div></section>
+          <section class="kanban-column" data-status="todo" aria-labelledby="todo-title"><header class="column-header"><h2 id="todo-title"><span class="status-dot dot-todo" aria-hidden="true"></span>A fazer <span id="todo-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="todo" aria-label="Nova tarefa em A fazer">+</button></header><p class="column-subtitle">Os próximos passos começam aqui.</p><div id="todo-tasks" class="task-list" role="list" aria-label="Tarefas a fazer"></div></section>
+          <section class="kanban-column" data-status="doing" aria-labelledby="doing-title"><header class="column-header"><h2 id="doing-title"><span class="status-dot dot-doing" aria-hidden="true"></span>Em andamento <span id="doing-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="doing" aria-label="Nova tarefa em andamento">+</button></header><p class="column-subtitle">Sua atenção, no que importa agora.</p><div id="doing-tasks" class="task-list" role="list" aria-label="Tarefas em andamento"></div></section>
+          <section class="kanban-column" data-status="done" aria-labelledby="done-title"><header class="column-header"><h2 id="done-title"><span class="status-dot dot-done" aria-hidden="true"></span>Concluído <span id="done-column-count" class="column-count">0</span></h2><button class="column-add" type="button" data-new-status="done" aria-label="Nova tarefa concluída">+</button></header><p class="column-subtitle">Um espaço para as suas conquistas.</p><div id="done-tasks" class="task-list" role="list" aria-label="Tarefas concluídas"></div></section>
         </section>
-        <footer class="workspace-footer"><span>Feito é melhor que pendente.</span><span>em dia.</span></footer>
+        <footer class="workspace-footer"><span>Um passo de cada vez. Tudo em dia.</span><span>Seu espaço. Seu ritmo.</span></footer>
       </main>
     </div>
 
     <dialog id="task-dialog" class="modal" aria-labelledby="task-dialog-title">
       <form id="task-form">
-        <div class="modal-heading"><div><span class="eyebrow">UM PASSO A MAIS</span><h2 id="task-dialog-title">Nova tarefa</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fechar formulário">×</button></div>
+        <div class="modal-heading"><div><span class="eyebrow">ORGANIZE SEU PRÓXIMO PASSO</span><h2 id="task-dialog-title">Nova tarefa</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fechar formulário">×</button></div>
         <div class="field"><label for="task-title">Título <span class="required-note">obrigatório</span></label><input id="task-title" name="title" maxlength="120" placeholder="O que você precisa fazer?" required><span class="field-hint">Até 120 caracteres.</span></div>
-        <div class="field"><label for="task-description">Descrição <span class="optional-note">opcional</span></label><textarea id="task-description" name="description" rows="4" maxlength="2000" placeholder="Adicione os detalhes que ajudam a tirar o plano do papel."></textarea><span class="field-hint">Até 2.000 caracteres.</span></div>
+        <div class="field"><label for="task-description">Descrição <span class="optional-note">opcional</span></label><textarea id="task-description" name="description" rows="4" maxlength="2000" placeholder="Adicione contexto, detalhes ou os próximos passos."></textarea><span class="field-hint">Até 2.000 caracteres.</span></div>
         <div class="field"><label for="task-status">Etapa</label><select id="task-status" name="status"><option value="todo">A fazer</option><option value="doing">Em andamento</option><option value="done">Concluído</option></select></div>
         <p id="task-error" class="form-error" role="alert" hidden></p>
         <div class="modal-actions"><button class="button button-secondary close-dialog" type="button">Cancelar</button><button id="task-submit" class="button button-primary" type="submit">Criar tarefa</button></div>
