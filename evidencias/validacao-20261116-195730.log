@@ -1,0 +1,48 @@
+**********************
+Início da transcrição do Windows PowerShell
+Hora de início: 20261116195730
+Nome de Usuário: DESKTOP-UEIJ0EP\natha
+Executar como Usuário: DESKTOP-UEIJ0EP\natha
+Nome da Configuração: 
+Computador: DESKTOP-UEIJ0EP (Microsoft Windows NT 10.0.26300.0)
+Aplicativo Host: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/validar.ps1
+ID do Processo: 23896
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcrição iniciada, o arquivo de saída é evidencias/validacao-20261116-195730.log
+
+
+
+PASS: Hadolint aprovado sem avisos ou erros (exit 0).
+
+> docker exec backend_api whoami
+appuser
+
+> docker exec backend_api touch /teste.txt
+docker : touch: /teste.txt: Read-only file system
+No D:\.Code\HARDENING DE CONTÊINERES - Devops\scripts\validar.ps1:36 caractere:15
++     $denial = docker exec backend_api touch /teste.txt 2>&1
++               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (touch: /teste.txt: Read-only file system:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+CapEff:	0000000000000000
+NoNewPrivs:	1
+
+POST via Nginx: id=bf3fa5f2-3d8c-4277-be2e-5f62ba41d50e, title=Persistencia-9e72bdc1-658c-4728-81ef-c1f3dffe1804
+
+
+PASS: usuario, raiz read-only, controles defensivos, tmpfs e persistencia apos recriacao.
+Capture tambem os testes no terminal e uma gravacao pelo formulario do navegador.
+**********************
+Fim da transcrição do Windows PowerShell
+Hora de término: 20261116195803
+**********************

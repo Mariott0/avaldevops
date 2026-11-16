@@ -1,0 +1,17 @@
+{
+  "capturedAt": "2026-11-16T22:59:00.935Z",
+  "records": [
+    {
+      "command": "docker exec backend_api whoami",
+      "exitCode": 0,
+      "stdout": "appuser",
+      "stderr": ""
+    },
+    {
+      "command": "docker exec backend_api id",
+      "exitCode": 0,
+      "stdout": "uid=10001(appuser) gid=10001(appgroup) groups=10001(appgroup)",
+      "stderr": ""
+    }
+  ]
+}

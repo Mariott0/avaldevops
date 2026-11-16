@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-11-16T22:59:00.935Z",
+  "url": "http://localhost:8080",
+  "method": "Formulario real via navegador Chromium",
+  "httpStatus": 201,
+  "task": {
+    "id": "8aca911c-2b40-43aa-9c7f-1b495fb918bd",
+    "title": "Hardening validado pelo frontend - 2026-11-16T22:59:02",
+    "description": "Criada pelo formulario com API non-root e raiz read-only. Deve sobreviver a recriacao dos containers.",
+    "status": "doing",
+    "createdAt": "2026-11-16T22:59:02.382Z",
+    "updatedAt": "2026-11-16T22:59:02.382Z"
+  },
+  "containerBefore": "942654b1d8b2195dae72a334a0c04d408522b439f0cb4d0be94b9f3dff1bc2b9",
+  "containerAfter": "0167c43caced388cc9e37082b0dd5ad0de58527b1eafaae848f5e16e033ebd53",
+  "sqliteAfter": {
+    "id": "8aca911c-2b40-43aa-9c7f-1b495fb918bd",
+    "title": "Hardening validado pelo frontend - 2026-11-16T22:59:02",
+    "status": "doing"
+  },
+  "visibleAfterRecreation": true
+}

@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-11-16T22:59:00.935Z",
+  "records": [
+    {
+      "command": "docker exec backend_api touch /teste.txt",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "touch: /teste.txt: Read-only file system"
+    }
+  ]
+}

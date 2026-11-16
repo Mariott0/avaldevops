@@ -1,0 +1,35 @@
+name: Quality gate de infraestrutura
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  hardening:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hadolint sem avisos ou erros
+        run: docker run --rm -i hadolint/hadolint < api/Dockerfile
+      - name: Validar Compose
+        run: docker compose config --quiet
+      - name: Subir aplicacao
+        run: docker compose up -d --build --wait
+      - name: Validar isolamento e persistencia
+        run: |
+          set -euo pipefail
+          test "$(docker exec backend_api whoami)" = appuser
+          test "$(docker exec backend_api id -u)" = 10001
+          if output=$(docker exec backend_api touch /teste.txt 2>&1); then
+            echo 'ERRO: raiz gravavel'; exit 1
+          fi
+          echo "$output"
+          echo "$output" | grep 'Read-only file system'
+          docker exec backend_api sh -c 'grep -E "^(CapEff|NoNewPrivs):" /proc/1/status'
+          token=$(curl -fsS http://localhost:8080/api/auth/login -H 'Content-Type: application/json' -d '{"username":"admin","password":"admin"}' | jq -r .token)
+          curl -fsS http://localhost:8080/api/tasks -H "Authorization: Bearer $token" -H 'Content-Type: application/json' -d '{"title":"Persistencia CI","description":"Teste CI","status":"todo"}'
+          docker exec backend_api test -s /app/data/app.db
+          docker compose up -d --force-recreate --wait
+          curl -fsS http://localhost:8080/api/tasks -H "Authorization: Bearer $token" | grep 'Persistencia CI'
+      - name: Logs
+        if: always()
+        run: docker compose logs
+      - name: Encerrar containers
+        if: always()
+        run: docker compose down

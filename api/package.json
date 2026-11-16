@@ -1,0 +1,20 @@
+{
+    "name":  "fluxo-kanban-api",
+    "version":  "1.0.0",
+    "private":  true,
+    "type":  "module",
+    "description":  "API Kanban com JWT e SQLite persistido em volume nomeado",
+    "engines":  {
+                    "node":  "\u003e=22.13.0"
+                },
+    "scripts":  {
+                    "start":  "node src/server.js",
+                    "test":  "node --test"
+                },
+    "dependencies":  {
+                         "express":  "5.2.1",
+                         "express-rate-limit":  "8.7.0",
+                         "helmet":  "8.3.0",
+                         "jsonwebtoken":  "9.0.3"
+                     }
+}

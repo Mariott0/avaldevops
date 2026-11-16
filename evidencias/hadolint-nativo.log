@@ -1,0 +1,5 @@
+Data: 2026-11-16T19:45:17.5033641-03:00
+Execucao nativa Windows; comando Docker ainda pendente.
+Haskell Dockerfile Linter 2.15.1
+> hadolint --no-color api/Dockerfile
+Exit code: 0

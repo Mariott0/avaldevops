@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-11-16T22:59:00.935Z",
+  "records": [
+    {
+      "command": "docker inspect --format {{.Id}} backend_api",
+      "exitCode": 0,
+      "stdout": "942654b1d8b2195dae72a334a0c04d408522b439f0cb4d0be94b9f3dff1bc2b9",
+      "stderr": ""
+    },
+    {
+      "command": "docker inspect --format {{.Id}} backend_api",
+      "exitCode": 0,
+      "stdout": "0167c43caced388cc9e37082b0dd5ad0de58527b1eafaae848f5e16e033ebd53",
+      "stderr": ""
+    },
+    {
+      "command": "docker exec backend_api ls -ln /app/data/app.db",
+      "exitCode": 0,
+      "stdout": "-rw-r--r--    1 10001    10001        28672 Nov 16 22:59 /app/data/app.db",
+      "stderr": ""
+    },
+    {
+      "command": "docker exec backend_api node -e const {DatabaseSync}=require('node:sqlite');const db=new DatabaseSync('/app/data/app.db',{readOnly:true});console.log(JSON.stringify(db.prepare('SELECT id,title,status FROM tasks WHERE id = ?').get(\"8aca911c-2b40-43aa-9c7f-1b495fb918bd\")));db.close()",
+      "exitCode": 0,
+      "stdout": "{\"id\":\"8aca911c-2b40-43aa-9c7f-1b495fb918bd\",\"title\":\"Hardening validado pelo frontend - 2026-11-16T22:59:02\",\"status\":\"doing\"}",
+      "stderr": "(node:28) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)"
+    }
+  ]
+}

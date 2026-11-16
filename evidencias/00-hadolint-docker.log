@@ -1,0 +1,4 @@
+Capturado em: 2026-11-16T22:59:00.935Z
+> docker run --rm -i hadolint/hadolint < api/Dockerfile
+
+Exit code: 0

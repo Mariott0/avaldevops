@@ -16,7 +16,7 @@ const tasks = new Map();
 const users = new Map();
 
 // Este repositório em memória valida o contrato HTTP e a autenticação.
-// Ele NÃO comprova persistência: essa verificação usa o PostgreSQL real via Compose.
+// Ele NÃO comprova persistência: sqlite.test.js testa o banco real; o roteiro Docker testa o volume.
 const database = {
   async health() {
     if (!healthy) throw new Error('offline');

@@ -1,14 +1,8 @@
+*.db
+*.db-shm
+*.db-wal
 node_modules/
 .env
 .env.*
 !.env.example
-coverage/
 .artifacts/
-entrega/
-*.zip
-*.log
-*.tmp
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/

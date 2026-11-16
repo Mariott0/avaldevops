@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0;padding:48px;background:#f3f6fa;color:#142033;font:18px system-ui}h1{font-size:30px}p{color:#48566a}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;border:1px solid #bcc9da;border-radius:12px;padding:28px;font:19px/1.65 Consolas,monospace}</style><h1>SQLite — registro preservado após recriação</h1><p>Registro de execução real em Docker · 2026-11-16T22:59:00.935Z</p><pre>&gt; docker inspect --format {{.Id}} backend_api
+942654b1d8b2195dae72a334a0c04d408522b439f0cb4d0be94b9f3dff1bc2b9
+Exit code: 0
+
+&gt; docker inspect --format {{.Id}} backend_api
+0167c43caced388cc9e37082b0dd5ad0de58527b1eafaae848f5e16e033ebd53
+Exit code: 0
+
+&gt; docker exec backend_api ls -ln /app/data/app.db
+-rw-r--r--    1 10001    10001        28672 Nov 16 22:59 /app/data/app.db
+Exit code: 0
+
+&gt; docker exec backend_api node -e const {DatabaseSync}=require(&#39;node:sqlite&#39;);const db=new DatabaseSync(&#39;/app/data/app.db&#39;,{readOnly:true});console.log(JSON.stringify(db.prepare(&#39;SELECT id,title,status FROM tasks WHERE id = ?&#39;).get(&quot;8aca911c-2b40-43aa-9c7f-1b495fb918bd&quot;)));db.close()
+{&quot;id&quot;:&quot;8aca911c-2b40-43aa-9c7f-1b495fb918bd&quot;,&quot;title&quot;:&quot;Hardening validado pelo frontend - 2026-11-16T22:59:02&quot;,&quot;status&quot;:&quot;doing&quot;}
+(node:28) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Exit code: 0</pre><p>Imagem do relatório de stdout/stderr capturados. Os arquivos .log e .json acompanham esta imagem.</p>

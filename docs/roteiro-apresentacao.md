@@ -1,46 +1,71 @@
-# Roteiro de demonstração — 5 a 8 minutos
+# Roteiro de demonstração e capturas
 
-## 1. Apresentar a arquitetura (1 minuto)
+Abra um terminal na raiz desta entrega. Reserve cerca de cinco minutos após baixar as imagens.
 
-Abra o diagrama do README e o `docker-compose.yml`. Explique as três camadas: o Nginx serve a interface, o Node.js aplica as regras e valida o JWT, e o PostgreSQL armazena usuários e tarefas.
+1. **Explicar a adaptação:** “Reaproveitamos o Kanban com Nginx e API Node.js. Para esta atividade, o banco passou a ser SQLite, persistido em volume nomeado.”
+2. **Mostrar `api/Dockerfile`:** base `node:22-alpine`, criação de `appgroup`/`appuser`, IDs 10001, posse de `/app/data` e instrução `USER`. O ID numérico resolve para `appuser`.
+3. **Mostrar `docker-compose.yml`:** `read_only`, `cap_drop`, `no-new-privileges`, `tmpfs` e volume nomeado.
+4. **Executar Hadolint** e mostrar ausência de diagnósticos e código 0. Salvar log ou captura.
+5. **Iniciar a stack:** `docker compose up -d --build --wait`.
 
-Mostre que só existe um `ports`, no frontend. A rede `frontend_net` une frontend e API; a rede interna `backend_net` une API e banco. O nome `db` funciona dentro do Docker porque o Compose oferece resolução DNS entre serviços da mesma rede.
+## Captura obrigatória: usuário
 
-## 2. Subir com um comando (1 minuto)
+```sh
+docker exec -it backend_api whoami
+docker exec -it backend_api id
+```
 
-Execute `docker compose up --build -d --wait` e depois `docker compose ps`. Mostre os três serviços saudáveis. Explique que `depends_on` com `service_healthy` aguarda o banco responder e a API concluir sua inicialização.
+Resultado esperado: `appuser`; UID/GID `10001`. Capture o terminal com comando e saída e salve como `evidencias/01-usuario.png`.
 
-## 3. Demonstrar aplicação e JWT (1 a 2 minutos)
+## Captura obrigatória: escrita na raiz negada
 
-Mostre uma tentativa de login incorreta e depois entre com `admin/admin`. Crie uma tarefa, edite-a e mova pelas colunas. Abra a aba Rede do navegador e mostre que a requisição para `/api/tasks` envia `Authorization: Bearer ...`.
+```sh
+docker exec -it backend_api touch /teste.txt
+```
 
-Saia e use **Criar conta** para cadastrar um usuário próprio. Mostre a entrada automática e o quadro vazio. Crie uma tarefa e recarregue para conferir a restauração do nome e dos dados. Entre como `admin` novamente: a tarefa da nova conta não aparece porque cada quadro pertence ao usuário autenticado.
+Resultado esperado: erro contendo `Read-only file system`. O comando **deve falhar**. Capture como `evidencias/02-read-only.png`.
 
-Explique: JWT é assinado pelo backend; a assinatura e a validade são verificadas antes de consultar tarefas. Uma alteração no token invalida sua assinatura. Decodificar o conteúdo do JWT não é o mesmo que validar o token. Evite expor o token em gravações ou compartilhamentos.
+## Capturas: frontend e SQLite
 
-Execute `node scripts/test-api.mjs`, se o computador tiver Node.js, para mostrar requisições sem token e com token adulterado sendo recusadas.
+1. Abra http://localhost:8080, faça login e crie uma tarefa com título identificável, por exemplo “Hardening validado — SQLite”.
+2. Mova a tarefa para “Em andamento” e capture a tela.
+3. Mostre o banco:
 
-## 4. Comprovar persistência (2 minutos)
+```sh
+docker exec -it backend_api ls -ln /app/data/app.db
+docker exec -it backend_api node -e "const {DatabaseSync}=require('node:sqlite'); const db=new DatabaseSync('/app/data/app.db',{readOnly:true}); console.table(db.prepare('SELECT id,title,status FROM tasks').all()); db.close()"
+```
 
-Crie uma tarefa identificável e mova para Em andamento. Mostre o volume com `docker volume inspect avaldevops_postgres_data`. Execute `docker compose down`, depois `docker compose up -d --wait`. Entre novamente e mostre os dados preservados.
+4. Recrie os contêineres mantendo o volume:
 
-Explique: o contêiner foi removido, mas o volume nomeado continuou existindo. O novo contêiner PostgreSQL monta o mesmo volume. A opção `down -v` não serve para este teste porque ela também remove o volume.
+```sh
+docker compose up -d --force-recreate --wait
+```
 
-Se preferir uma comprovação automática: `node scripts/test-persistence.mjs --keep-task` compara o volume, os IDs dos contêineres e o registro da tarefa e gera um relatório.
+5. Atualize o navegador e comprove que a tarefa continua no quadro, na mesma coluna. Capture como `evidencias/03-persistencia.png`.
 
-## 5. Mostrar qualidade e organização (1 minuto)
+## Perguntas que podem aparecer
 
-Abra os Dockerfiles e destaque `FROM ...alpine`, `WORKDIR`, `COPY`, `EXPOSE` e execução sem root. No backend, copiar os manifests antes do código permite reaproveitar a camada de dependências; `npm ci` respeita o lockfile. No frontend estático, não é necessária uma etapa de compilação.
+- **Por que não-root?** Limita os privilégios do processo; não elimina todos os riscos.
+- **Por que `read_only` além de não-root?** Impede alterar a raiz do contêiner mesmo em caminhos que seriam graváveis pelo usuário.
+- **Por que o SQLite continua funcionando?** O volume em `/app/data` continua gravável por UID/GID 10001.
+- **Para que `cap_drop`?** Remove capacidades adicionais do kernel Linux do processo.
+- **Para que `no-new-privileges`?** Impede adquirir novos privilégios durante `exec`, inclusive por SUID e file capabilities.
+- **Por que `/tmp`?** Disponibiliza temporários efêmeros em tmpfs sem tornar a raiz gravável.
+- **Por que não há contêiner de banco?** SQLite é embarcado; o arquivo fica no volume montado na API.
+- **O log nativo substitui o comando pedido?** Não. Execute também o Hadolint pela imagem Docker para cumprir literalmente o roteiro.
 
-Mostre `.dockerignore`, `.gitignore`, documentação e `nomes.txt`. Encerre explicando que o avaliador precisa somente extrair o ZIP e executar o Compose.
+## Conferência da entrega
 
-## Perguntas que o grupo deve saber responder
+- `api/Dockerfile` e `docker-compose.yml`.
+- Código necessário para executar o Kanban e dependências travadas no lockfile.
+- Log do Hadolint **via Docker** aprovado.
+- Imagens reais de `whoami` e `touch /teste.txt`.
+- Evidência de gravação pelo frontend e persistência após recriar os contêineres (`03-frontend-gravacao.png` e `04-frontend-apos-recriar.png`).
+- Documentação e identificação dos integrantes em `nomes.txt` (confira os nomes antes de entregar).
 
-| Pergunta | Explicação |
-| --- | --- |
-| Por que o frontend não usa `localhost:3000`? | No navegador, localhost seria o computador; no Nginx, seria o próprio contêiner. O proxy usa `backend:3000` no DNS do Docker. |
-| Por que não ocorreu CORS? | Página e API são acessadas pelo navegador na mesma origem, em localhost:8080. |
-| `EXPOSE` publica uma porta? | Não. A publicação no host é configurada com `ports`. |
-| O que persiste quando um contêiner é removido? | Os arquivos gravados no volume nomeado; alterações somente no filesystem do contêiner são descartáveis. |
-| Por que ter healthcheck além de depends_on? | Um processo pode ter iniciado antes de estar pronto para responder. A condição service_healthy aguarda prontidão. |
-| O banco pode ser acessado diretamente do navegador? | Não há porta do banco publicada, e o frontend não participa da rede interna do banco. |
+Não use evidências do projeto do semestre anterior como comprovação desta versão. Gere as capturas e os logs com os arquivos atuais.
+
+## Evidências já geradas
+
+Os testes desta versão foram concluídos e estão indexados em `evidencias/STATUS.md`. `01-usuario.png` e `02-read-only.png` registram os resultados reais em relatórios visuais com logs anexos; para mostrar também o terminal nativo durante a apresentação, execute os comandos interativos acima. `00-hadolint-docker.log` comprova o quality gate via Docker com código zero.

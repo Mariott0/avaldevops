@@ -1,0 +1,31 @@
+
+> fluxo-kanban-api@1.0.0 test
+> node --test
+
+✔ a senha usa salt aleatório e o verificador rejeita senha incorreta (158.2217ms)
+✔ a API exige um segredo JWT de pelo menos 32 caracteres (0.5498ms)
+✔ login admin/admin retorna JWT assinado e com expiração de duas horas (85.8924ms)
+✔ login recusa credenciais erradas, tipos inválidos e campos extras (43.3386ms)
+✔ todas as operações de tarefas exigem autenticação (4.9841ms)
+✔ cadastro normaliza usuário, protege senha, retorna JWT e permite login e restauração (108.6068ms)
+✔ cadastro rejeita duplicados sem substituir senha, incluindo admin e diferenças de caixa (147.2281ms)
+✔ cadastro valida usuário, senha e campos extras (13.5529ms)
+✔ duas contas cadastradas só acessam suas próprias tarefas (67.6181ms)
+✔ tokens de usuários inexistentes ou com nome divergente são rejeitados (3.4616ms)
+✔ limita cadastros antes de executar hash ou gravação (5.8909ms)
+✔ rejeita JWT expirado, adulterado, sem expiração e com emissor, público ou algoritmo errados (10.9588ms)
+✔ cria, lista, move entre colunas, edita e exclui uma tarefa (7.5839ms)
+✔ valida campos de tarefas e não permite alterar id ou proprietário (14.3398ms)
+✔ tarefas de outro usuário não podem ser listadas, alteradas ou excluídas (2.8892ms)
+✔ erros de JSON e payload excessivo retornam JSON amigável (2.7644ms)
+✔ health público reflete a disponibilidade do banco (1.6632ms)
+✔ limita tentativas inválidas de login por endereço IP (64.7003ms)
+✔ SQLite real: cadastro, isolamento, CRUD HTTP e persistencia apos reabrir app.db (257.2073ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 981.5297
